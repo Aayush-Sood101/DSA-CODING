@@ -1,0 +1,1 @@
+cout<<"Enter array elements : ";

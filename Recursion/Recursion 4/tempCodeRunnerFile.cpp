@@ -1,0 +1,1 @@
+if(str[str.length()-1]!='1')
