@@ -32,6 +32,8 @@ public:
     void pop(){
         //popping
         idx--;
+
+        //last element is put at the top
         arr[1] = arr[idx];
 
         //rearragement
