@@ -1,37 +1,39 @@
-#include<iostream>
-#include<vector>
-#include<unordered_map>
+#include<bits/stdc++.h>
 using namespace std;
 
+int v; //no. of vertices
 vector<unordered_map<int , int>> graph;
-int v; // number of vertices
-void add_edge(int src , int dest , int wt , bool bi_dir = true){
-    graph[src][dest] = wt;
+void addEdge(int src , int dest , int weight ,  bool bi_dir = true){
+    graph[src][dest] = weight;
     if(bi_dir){
-        graph[dest][src] = wt;
+        graph[dest][src] = weight;
     }
 }
+
 void display(){
-    for(int i = 0 ; i<graph.size() ; i++){
-        cout<<i<<" -> ";
-        for(auto ele : graph[i]){
-            cout<<"("<<ele.first<<" , "<<ele.second<<")"<<" , ";
+    for(int i = 0 ; i<v ; i++){
+        cout<<i<<"->";
+        for(auto ele: graph[i]){
+            cout<<ele.first<<" "<<ele.second<<" , ";
         }
         cout<<endl;
     }
 }
+
 int main(){
     cout<<"Enter the number of vertices: ";
     cin>>v;
+
     graph.resize(v , unordered_map<int , int> ());
-    int e; // Number of edges
-    cout<<"Enter the number of edges: ";
-    cin>>e;
-    cout<<"Start entering source , destination and weight for each edge: "<<endl;
-    while(e--){
-        int s , d , wt; // source and destination
-        cin>>s>>d>>wt;
-        add_edge(s , d , wt);
+    cout<<"Enter the edges in the form of (src dest weight) "<<endl;
+    cout<<"Enter (-1 -1 -1) to stop"<<endl;
+    while(true){
+        int src, dest , weight;
+        cin>>src>>dest>>weight;
+        if(src == -1)
+        break;
+        addEdge(src , dest , weight);
     }
+
     display();
 }

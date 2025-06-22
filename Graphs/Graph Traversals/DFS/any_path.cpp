@@ -1,49 +1,58 @@
-#include<iostream>
-#include<vector>
-#include<list>
-#include<unordered_set>
+// GIVEN TWO VERTICES CHECK WHETEHER THERE EXISTS ANY PATH BETWEEN THEM
+//T.C: O(V + E)
+//S.C.: O(V)
+#include<bits/stdc++.h>
 using namespace std;
 
-vector<list<int>> graph; // undirected unweighted graph
-unordered_set<int> visited;
-int v;
-
-void add_edge(int src , int dest , bool bi_dir = true){
+int v; //no. of vertices
+vector<list<int>> graph;
+void addEdge(int src , int dest , bool bi_dir = true){
     graph[src].push_back(dest);
     if(bi_dir){
         graph[dest].push_back(src);
     }
 }
-bool dfs(int curr , int end){
-    //base case
-    if(curr == end) return true;
 
-    visited.insert(curr);
-    for(auto neighbour : graph[curr]){
-        if(visited.find(neighbour) == visited.end()){ // not yet visited the vertex
+unordered_set<int> s;
+bool dfs(int curr , int end){
+    if(curr == end) return true;
+    s.insert(curr); // mark visited
+    for(auto neighbour: graph[curr]){
+        if(s.find(neighbour) == s.end()){ // not in set yet
             bool result = dfs(neighbour , end);
-            if(result) return true;
+            if(result)
+            return true;
         }
     }
+
     return false;
 }
 
-bool any_path(int src , int dest){
+bool anyPath(int src , int dest){
     return dfs(src , dest);
 }
 
+
+
+
 int main(){
+    cout<<"Enter the number of vertices: ";
     cin>>v;
+    graph.clear();
+    s.clear();
     graph.resize(v , list<int> ());
-    int e;
-    cin>>e;
-    while(e--){
-        int s , d;
-        cin>>s>>d;
-        add_edge(s , d);
+    cout<<"Enter the edges in the form of (src dest) "<<endl;
+    cout<<"Enter (-1 -1) to stop"<<endl;
+    while(true){
+        int src, dest;
+        cin>>src>>dest;
+        if(src == -1)
+        break;
+        addEdge(src , dest);
     }
-    //input for code
+
+    cout<<"Enter the src and dest nodes: ";
     int x , y;
     cin>>x>>y;
-    cout<<any_path(x , y)<<endl;
+    cout<<anyPath(x , y)<<endl;
 }

@@ -1,59 +1,61 @@
-#include<iostream>
-#include<vector>
-#include<list>
-#include<queue>
-#include<unordered_set>
-#include<climits>
+//FIND THE SHORTEST PATH FROM A VERTEX TO ALL OTHER VERTICES
+//T.C.: O(V + E)
+//S.C.: O(V)
+#include<bits/stdc++.h>
 using namespace std;
 
-vector<list<int>> graph; // undirected unweighted graph
-unordered_set<int> visited;
-vector<int> dist;
-int v;
-
-void add_edge(int src , int dest , bool bi_dir = true){
+int v; //no. of vertices
+vector<list<int>> graph;
+void addEdge(int src , int dest , bool bi_dir = true){
     graph[src].push_back(dest);
     if(bi_dir){
         graph[dest].push_back(src);
     }
 }
 
-void bfs(int src , vector<int> &dist){
-    visited.clear();
+vector<int> dist;
+unordered_set<int> visited;
+void bfs(int src){
+    dist.clear();
     dist.resize(v , INT_MAX);
-    dist[src] = 0;
-
     queue<int> q;
+    dist[src] = 0;
     visited.insert(src);
     q.push(src);
     while(q.size() > 0){
-        int curr  = q.front();
+        int curr = q.front();
         q.pop();
-        for(auto neighbour : graph[curr]){
-            if(!(visited.count(neighbour))){ // node not visited
+
+        for(auto neighbour: graph[curr]){
+            if(visited.find(neighbour) == visited.end()){
                 q.push(neighbour);
                 visited.insert(neighbour);
-
-                dist[neighbour] = dist[curr] + 1;
+                dist[neighbour] = dist[curr] + 1; 
             }
         }
     }
+
 }
 
+
 int main(){
+    cout<<"Enter the number of vertices: ";
     cin>>v;
+
     graph.resize(v , list<int> ());
-    int e;
-    cin>>e;
-    while(e--){
-        int s , d;
-        cin>>s>>d;
-        add_edge(s , d);
+    cout<<"Enter the edges in the form of (src dest) "<<endl;
+    cout<<"Enter (-1 -1) to stop"<<endl;
+    while(true){
+        int src, dest;
+        cin>>src>>dest;
+        if(src == -1)
+        break;
+        addEdge(src , dest);
     }
-    //input for code
-    vector<int> dist;
-    bfs(0 , dist);
-    for(int i = 0 ; i<dist.size() ; i++){
-        cout<<dist[i]<<" ";
+
+    bfs(0);
+    for(auto ele : dist){
+        cout<<ele<<" ";
     }
+    cout<<endl;
 }
